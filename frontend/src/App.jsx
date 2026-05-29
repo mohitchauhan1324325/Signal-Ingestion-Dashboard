@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "./api";
-import SignalForm from "./components/SignalForm";
-import SignalTable from "./components/SignalTable";
+import SignalForm from "./components/SingnalForm";
+import SignalTable from "./components/SingnalTable";
 
 function App() {
   const [signals, setSignals] = useState([]);
