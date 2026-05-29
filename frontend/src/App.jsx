@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "./api";
-import SignalForm from "./components/SingnalForm.jsx";
-import SignalTable from "./components/SingnalTable.jsx";
+import SignalForm from "./components/SignalForm";
+import SignalTable from "./components/SignalTable";
 
 function App() {
   const [signals, setSignals] = useState([]);
@@ -21,7 +21,7 @@ function App() {
       const res = await api.get(url);
 
       setSignals(res.data);
-    } catch {
+    } catch (err) {
       setError("Failed to fetch signals");
     } finally {
       setLoading(false);
@@ -33,29 +33,40 @@ function App() {
   }, [symbol]);
 
   return (
-    <div>
-      <h1>Signal Dashboard</h1>
+    <div className="min-h-screen bg-slate-100 py-10 px-4">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-10 text-slate-800">
+          Signal Dashboard
+        </h1>
 
-      <SignalForm onSuccess={fetchSignals} />
+        <SignalForm onSuccess={fetchSignals} />
 
-      <br />
+        <div className="my-8">
+          <input
+            type="text"
+            placeholder="Filter by Symbol (e.g. AAPL)"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            className="
+              w-full
+              p-3
+              rounded-lg
+              border
+              border-slate-300
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-500
+              bg-white
+            "
+          />
+        </div>
 
-      <input
-        placeholder="Filter Symbol"
-        value={symbol}
-        onChange={(e) =>
-          setSymbol(e.target.value)
-        }
-      />
-
-      <br />
-      <br />
-
-      <SignalTable
-        signals={signals}
-        loading={loading}
-        error={error}
-      />
+        <SignalTable
+          signals={signals}
+          loading={loading}
+          error={error}
+        />
+      </div>
     </div>
   );
 }
